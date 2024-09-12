@@ -23,7 +23,6 @@ return { -- Highlight, edit, and navigate code
             'markdown',
             'vim',
             'vimdoc',
-            'dart',
         },
         -- Autoinstall languages that are not installed
         auto_install = true,

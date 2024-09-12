@@ -1,5 +1,6 @@
 -- Include vimoptions.lua
 require 'vimoptions'
+require 'floating_terminal'
 
 -- [[ Basic Autocommands ]]
 vim.api.nvim_create_autocmd('TextYankPost', {
