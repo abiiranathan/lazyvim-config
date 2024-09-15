@@ -94,4 +94,8 @@ vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move the current line up'
 vim.keymap.set('x', '<A-j>', ":move '>+1<CR>gv-gv", { desc = 'Move the selected lines down' })
 vim.keymap.set('x', '<A-k>', ":move '<-2<CR>gv-gv", { desc = 'Move the selected lines up' })
 
--- Duplicate current line: yyp
+--Key map to resize the window
+vim.keymap.set('n', '<C-Up>', ':resize +5<CR>', { desc = 'Resize the window height by 5' })
+vim.keymap.set('n', '<C-Down>', ':resize -5<CR>', { desc = 'Resize the window height by -5' })
+vim.keymap.set('n', '<C-Left>', ':vertical resize -5<CR>', { desc = 'Resize the window width by -5' })
+vim.keymap.set('n', '<C-Right>', ':vertical resize +5<CR>', { desc = 'Resize the window width by 5' })
