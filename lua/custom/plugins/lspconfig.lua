@@ -117,7 +117,7 @@ return { -- LSP Configuration & Plugins
             gopls = {},
             pyright = {},
             rust_analyzer = {},
-            tsserver = {},
+            ts_ls = {},
             emmet_language_server = {
                 cmd = { 'emmet-language-server', '--stdio' },
                 filetypes = { 'html', 'css', 'scss', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
@@ -152,6 +152,7 @@ return { -- LSP Configuration & Plugins
             },
         }
 
+        
         -- Ensure the servers and tools above are installed
         require('mason').setup()
 
