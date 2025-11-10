@@ -11,16 +11,10 @@ vim.opt.mouse = 'a'
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
-
--- Register templ file type.
 vim.filetype.add { extension = { templ = 'templ' } }
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
 vim.opt.clipboard = 'unnamedplus'
-
--- Enable break indent
 vim.opt.breakindent = true
 
 -- Save undo history
@@ -42,6 +36,7 @@ vim.opt.updatetime = 250
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
 vim.opt.timeoutlen = 300
+vim.o.winborder = 'rounded'
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -72,8 +67,16 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('n', '<leader>o', ':!xdg-open %<CR>')
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+-- Go to previous diagnostic message
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.goto({ prev = true })
+end, { desc = 'Go to previous [D]iagnostic message' })
+
+-- Go to next diagnostic message
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.goto({ next = true })
+end, { desc = 'Go to next [D]iagnostic message' })
+
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -99,3 +102,8 @@ vim.keymap.set('n', '<C-Up>', ':resize +5<CR>', { desc = 'Resize the window heig
 vim.keymap.set('n', '<C-Down>', ':resize -5<CR>', { desc = 'Resize the window height by -5' })
 vim.keymap.set('n', '<C-Left>', ':vertical resize -5<CR>', { desc = 'Resize the window width by -5' })
 vim.keymap.set('n', '<C-Right>', ':vertical resize +5<CR>', { desc = 'Resize the window width by 5' })
+
+-- Save file with Ctrl+S in Normal, Insert, and Visual modes
+vim.keymap.set('n', '<C-s>', '<cmd>write<CR>', { desc = 'Save file', silent = true })
+vim.keymap.set('i', '<C-s>', '<Esc><cmd>write<CR>a', { desc = 'Save file', silent = true })
+vim.keymap.set('v', '<C-s>', '<Esc><cmd>write<CR>gv', { desc = 'Save file', silent = true })
