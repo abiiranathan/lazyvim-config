@@ -101,14 +101,14 @@ return { -- LSP Configuration & Plugins
 
         -- Toggle features
         local client = vim.lsp.get_client_by_id(event.data.client_id)
-        if client and client.supports_method('textDocument/inlayHint') then
+        if client and client:supports_method('textDocument/inlayHint') then
           map('<leader>th', function()
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           end, '[T]oggle Inlay [H]ints')
         end
 
         -- Document highlighting setup
-        if client and client.supports_method('textDocument/documentHighlight') then
+        if client and client:supports_method('textDocument/documentHighlight') then
           local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
 
           vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
