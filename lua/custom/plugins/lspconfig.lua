@@ -34,35 +34,31 @@ return { -- LSP Configuration & Plugins
 
         -- Code actions and refactoring
         map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-        map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+        local quickfix_menu = function()
+          require('actions-preview').code_actions()
+        end
+        map('<leader>ca', quickfix_menu, '[C]ode [A]ction (diff preview)')
+        vim.keymap.set('v', '<leader>ca', quickfix_menu, { buffer = event.buf, desc = 'Code Action (diff preview)' })
         map('<leader>f', function()
           vim.lsp.buf.format { async = true }
         end, '[F]ormat')
 
         -- Quick fix - like VS Code's Ctrl+.
-        map('<leader>.', vim.lsp.buf.code_action, 'Quick [F]ix / Code Action')
-        map('<C-.>', vim.lsp.buf.code_action, 'Quick [F]ix / Code Action (VS Code style)')
+        -- NOTE: many terminals swallow <C-.>; <leader>. always works.
+        map('<leader>.', quickfix_menu, 'Quick [F]ix (diff preview)')
+        map('<C-.>', quickfix_menu, 'Quick [F]ix (VS Code style)')
+        vim.keymap.set('v', '<leader>.', quickfix_menu, { buffer = event.buf, desc = 'Quick Fix (diff preview)' })
+        vim.keymap.set('v', '<C-.>', quickfix_menu, { buffer = event.buf, desc = 'Quick Fix (VS Code style)' })
 
-        -- Auto-fix - apply first available code action automatically
+        -- Auto-fix - applies the single quick fix, shows the preview menu
+        -- when several match, notifies when none match.
         map('<leader>af', function()
-          vim.lsp.buf.code_action {
-            filter = function(action)
-              return action.isPreferred
-                or string.match(action.title:lower(), 'fix')
-                or string.match(action.title:lower(), 'import')
-            end,
-            apply = true,
-          }
+          require('custom.quickfix').auto_fix()
         end, '[A]uto [F]ix')
 
         -- Source code actions (organize imports, etc.)
         map('<leader>so', function()
-          vim.lsp.buf.code_action {
-            context = {
-              only = { 'source.organizeImports' },
-            },
-            apply = true,
-          }
+          require('custom.quickfix').organize_imports()
         end, '[S]ource [O]rganize imports')
 
         map('<leader>sa', function()
@@ -82,8 +78,12 @@ return { -- LSP Configuration & Plugins
         map('<leader>e', vim.diagnostic.open_float, 'Show lin[E] diagnostics')
         map('<leader>q', vim.diagnostic.setloclist, 'Open diagnostic [Q]uickfix list')
         map('<leader>Q', vim.diagnostic.setqflist, 'Open workspace diagnostic [Q]uickfix list')
-        map('[d', vim.diagnostic.goto_prev, 'Go to previous [D]iagnostic message')
-        map(']d', vim.diagnostic.goto_next, 'Go to next [D]iagnostic message')
+        map('[d', function()
+          vim.diagnostic.jump { count = -1, float = true }
+        end, 'Go to previous [D]iagnostic message')
+        map(']d', function()
+          vim.diagnostic.jump { count = 1, float = true }
+        end, 'Go to next [D]iagnostic message')
 
         -- Quickfix list navigation
         map('<leader>qo', '<cmd>copen<CR>', '[Q]uickfix [O]pen')

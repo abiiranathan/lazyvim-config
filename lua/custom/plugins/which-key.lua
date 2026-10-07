@@ -9,6 +9,9 @@ return {                -- Useful plugin to show you pending keybinds.
         { "<leader>r",  group = "[R]ename" },
         { "<leader>s",  group = "[S]earch" },
         { "<leader>s_", hidden = true },
+        { "<leader>f",  group = "[F]loating / [F]ile" },
+        { "<leader>m",  group = "[M]ulticursor" },
+        { "<leader>sn", group = "[S]earch [N]oice" },
         { "<leader>t",  group = "[T]oggle" },
         { "<leader>w",  group = "[W]orkspace" },
 

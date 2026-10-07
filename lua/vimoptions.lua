@@ -69,12 +69,12 @@ vim.keymap.set('n', '<leader>o', ':!xdg-open %<CR>')
 -- Diagnostic keymaps
 -- Go to previous diagnostic message
 vim.keymap.set('n', '[d', function()
-  vim.diagnostic.goto({ prev = true })
+  vim.diagnostic.jump { count = -1, float = true }
 end, { desc = 'Go to previous [D]iagnostic message' })
 
 -- Go to next diagnostic message
 vim.keymap.set('n', ']d', function()
-  vim.diagnostic.goto({ next = true })
+  vim.diagnostic.jump { count = 1, float = true }
 end, { desc = 'Go to next [D]iagnostic message' })
 
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
@@ -97,6 +97,14 @@ vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move the current line up'
 vim.keymap.set('x', '<A-j>', ":move '>+1<CR>gv-gv", { desc = 'Move the selected lines down' })
 vim.keymap.set('x', '<A-k>', ":move '<-2<CR>gv-gv", { desc = 'Move the selected lines up' })
 
+-- VSCode-style: Ctrl+Shift+Up/Down moves the line (or selection).
+-- NOTE: plain terminals often can't tell Ctrl+Shift+Arrows apart from
+-- Ctrl+Arrows (see resize maps below); Alt+j/k above always works.
+vim.keymap.set('n', '<C-S-Up>', ':m .-2<CR>==', { desc = 'Move the current line up' })
+vim.keymap.set('n', '<C-S-Down>', ':m .+1<CR>==', { desc = 'Move the current line down' })
+vim.keymap.set('x', '<C-S-Up>', ":move '<-2<CR>gv-gv", { desc = 'Move the selected lines up' })
+vim.keymap.set('x', '<C-S-Down>', ":move '>+1<CR>gv-gv", { desc = 'Move the selected lines down' })
+
 --Key map to resize the window
 vim.keymap.set('n', '<C-Up>', ':resize +5<CR>', { desc = 'Resize the window height by 5' })
 vim.keymap.set('n', '<C-Down>', ':resize -5<CR>', { desc = 'Resize the window height by -5' })
@@ -107,3 +115,22 @@ vim.keymap.set('n', '<C-Right>', ':vertical resize +5<CR>', { desc = 'Resize the
 vim.keymap.set('n', '<C-s>', '<cmd>write<CR>', { desc = 'Save file', silent = true })
 vim.keymap.set('i', '<C-s>', '<Esc><cmd>write<CR>a', { desc = 'Save file', silent = true })
 vim.keymap.set('v', '<C-s>', '<Esc><cmd>write<CR>gv', { desc = 'Save file', silent = true })
+
+-- Builtin docs popup (lua/custom/docs/*.md, rendered markdown).
+-- Registered eagerly (not via lazy) so :Cheatsheet always exists.
+vim.api.nvim_create_user_command('Cheatsheet', function(opts)
+  if opts.args == '' then
+    require('custom.cheatsheet').pick()
+  else
+    require('custom.cheatsheet').open(opts.args)
+  end
+end, {
+  nargs = '?',
+  desc = 'Open cheatsheet topic in a popup (empty = pick)',
+  complete = function()
+    return require('custom.cheatsheet').ids()
+  end,
+})
+vim.keymap.set('n', '<leader>?', function()
+  require('custom.cheatsheet').pick()
+end, { desc = 'Cheatsheet (docs popup)', silent = true })
