@@ -9,8 +9,9 @@ return { -- LSP Configuration & Plugins
     -- Useful status updates for LSP.
     { 'j-hui/fidget.nvim', opts = {} },
 
-    -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-    { 'folke/neodev.nvim', opts = {} },
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- (neodev.nvim is archived; lazydev is its maintained successor)
+    { 'folke/lazydev.nvim', ft = 'lua', opts = {} },
   },
   config = function()
     -- LSP Attach event handler
@@ -23,6 +24,7 @@ return { -- LSP Configuration & Plugins
 
         -- Navigation mappings
         map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+        map('<leader>gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition (leader alias)')
         map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
         map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
         map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
@@ -287,6 +289,7 @@ return { -- LSP Configuration & Plugins
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'markdownlint', -- Linter for Markdown (nvim-lint)
     })
 
     require('mason-tool-installer').setup {
@@ -295,15 +298,15 @@ return { -- LSP Configuration & Plugins
       run_on_start = true,
     }
 
-    -- Setup LSP servers
-    require('mason-lspconfig').setup {
-      handlers = {
-        function(server_name)
-          local server = servers[server_name] or {}
-          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-          require('lspconfig')[server_name].setup(server)
-        end,
-      },
-    }
+    -- Register server configs with the native Nvim 0.11+ API.
+    -- NOTE: mason-lspconfig v2 dropped the `handlers` option (it is silently
+    -- ignored), so lspconfig-style setup calls here would never run. Servers
+    -- below are enabled with OUR settings via vim.lsp.config + vim.lsp.enable.
+    for server_name, server in pairs(servers) do
+      server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+      vim.lsp.config(server_name, server)
+    end
+    require('mason-lspconfig').setup { ensure_installed = ensure_installed }
+    vim.lsp.enable(vim.tbl_keys(servers))
   end,
 }

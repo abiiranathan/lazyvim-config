@@ -11,7 +11,8 @@ return {
     opts = { integrations = { telescope = true, diffview = true } },
     keys = {
       { '<leader>gg', '<cmd>Neogit<cr>', desc = 'Neogit status' },
-      { '<leader>gd', '<cmd>DiffviewOpen<cr>', desc = 'Git [D]iff (working tree)' },
+      -- NOTE: <leader>gd is go-to-definition (see lspconfig); use :DiffviewOpen
+      -- directly or Neogit's own diff views for the working tree.
       { '<leader>gD', '<cmd>DiffviewFileHistory %<cr>', desc = 'File history' },
     },
   },

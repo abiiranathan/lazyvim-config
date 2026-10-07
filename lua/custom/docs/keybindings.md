@@ -50,6 +50,7 @@ Leader is `Space`. Buffer-local LSP maps only exist in code files.
 | Keys | Action |
 |---|---|
 | `gd gD gr gI` | definition / declaration / references / implementation |
+| `<leader> g d` | definition (same as `gd`) |
 | `K` | hover docs |
 | `<leader> r n` | rename symbol |
 | `<leader> c a`, `<leader> .`, `Ctrl-.` | quick fix menu with diff preview (normal + visual) |
