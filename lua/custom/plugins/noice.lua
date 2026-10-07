@@ -79,11 +79,9 @@ return {
           return '<c-f>'
         end
       end, silent = true, expr = true, desc = 'Scroll Forward', mode = { 'i', 'n', 's' } },
-      { '<c-b>', function()
-        if not require('noice.lsp').scroll(-4) then
-          return '<c-b>'
-        end
-      end, silent = true, expr = true, desc = 'Scroll Backward', mode = { 'i', 'n', 's' } },
+      -- NOTE: no <C-b> scroll mapping on purpose: <C-b> is the neo-tree
+      -- toggle (see neo-tree.lua), and noice loads later (VeryLazy),
+      -- so its mapping would shadow the toggle.
     },
     config = function(_, opts)
       if vim.o.filetype == 'lazy' then
