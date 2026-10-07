@@ -30,6 +30,8 @@ Leader is `Space`. Buffer-local LSP maps only exist in code files.
 | `<leader> s k` | keymaps |
 | `<leader> s s` | all pickers |
 | `<leader> s r` | resume last picker |
+| `<leader> s R` | find & replace across project (grug-far) |
+| `<leader> s p` | yank history |
 | `<leader> <leader>` | buffers |
 
 ## Command palette & terminal
@@ -59,6 +61,38 @@ Leader is `Space`. Buffer-local LSP maps only exist in code files.
 
 > 💡 A lightbulb sign marks lines with an available fix. If `Ctrl-.`
 > does nothing, your terminal ate it — use `<leader> .` instead.
+
+## Navigation (flash, surround, buffers)
+
+| Keys | Mode | Action |
+|---|---|---|
+| `s` + label | n x o | flash-jump to any visible text |
+| `S` | n x o | flash out via Treesitter node |
+| `[ b` / `] b` | n | prev / next buffer (tabs on top) |
+| `<leader> b d` | n | delete buffer |
+| `<leader> b o` | n | delete other buffers |
+| `<leader> b p` | n | pin buffer tab |
+| `g z a w )` | n | surround word with parens (surround = `gz` + `a/d/r`) |
+| `g z d '` | n | delete surrounding quotes |
+| `g z r ) '` | n | replace `)` with `'` |
+| `z R` / `z M` | n | open / close all folds |
+
+## Sessions, outline, git UI, tests
+
+| Keys | Action |
+|---|---|
+| `<leader> q s` | restore session for cwd |
+| `<leader> q S` | pick a session |
+| `<leader> q d` | stop saving session |
+| `<leader> c o` | symbol outline sidebar |
+| `<leader> x x` / `<leader> x X` | diagnostics panel (all / buffer) |
+| `<leader> c l` | definitions/references panel |
+| `<leader> g g` | neogit status |
+| `<leader> g d` / `<leader> g D` | diff working tree / file history |
+| `<leader> t t` / `<leader> t T` | test nearest / test file |
+| `<leader> t a` / `<leader> t s` / `<leader> t o` | test all / summary / output |
+| `<leader> u` | undo tree |
+| `[ y` / `] y` | cycle yank history after paste |
 
 ## Git hunks
 

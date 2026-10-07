@@ -10,6 +10,8 @@ return {
       notifier = { enabled = true },
       quickfile = { enabled = true },
       picker = { enabled = true },
+      dashboard = { enabled = true },
+      scroll = { enabled = true },
       terminal = {
         win = {
           style = 'float',

@@ -40,13 +40,29 @@ return {
       require('mini.ai').setup { n_lines = 500 }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
-      -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-      -- - sd'   - [S]urround [D]elete [']quotes
-      -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
-      -- Bracketed textobjects
-      require('mini.bracketed').setup()
+      -- NOTE: gz prefix (not s) so flash.nvim can own `s` for jumping.
+      -- - gzaw) - [G]o [Z]urround [A]dd [I]nner [W]ord [)]Paren
+      -- - gzd'   - [G]o [Z]urround [D]elete [']quotes
+      -- - gzr)'  - [G]o [Z]urround [R]eplace [)] [']
+      require('mini.surround').setup {
+        mappings = {
+          add = 'gza',
+          delete = 'gzd',
+          find = 'gzf',
+          find_left = 'gzF',
+          highlight = 'gzh',
+          replace = 'gzr',
+          update_n_lines = 'gzn',
+        },
+      }
+      -- Bracketed textobjects ([b/]b and [y/]y disabled: owned by
+      -- bufferline and yanky respectively, avoids load-order flakiness)
+      require('mini.bracketed').setup {
+        buffer = { suffix = '' },
+        yank = { suffix = '' },
+      }
+      -- Indent guides (nesting depth at a glance)
+      require('mini.indentscope').setup()
     end,
   },
 }

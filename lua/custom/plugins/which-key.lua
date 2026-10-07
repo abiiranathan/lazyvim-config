@@ -10,10 +10,12 @@ return {                -- Useful plugin to show you pending keybinds.
         { "<leader>s",  group = "[S]earch" },
         { "<leader>s_", hidden = true },
         { "<leader>f",  group = "[F]loating / [F]ile" },
+        { "<leader>g",  group = "[G]it UI" },
         { "<leader>m",  group = "[M]ulticursor" },
         { "<leader>sn", group = "[S]earch [N]oice" },
-        { "<leader>t",  group = "[T]oggle" },
+        { "<leader>t",  group = "[T]est / [T]oggle" },
         { "<leader>w",  group = "[W]orkspace" },
+        { "<leader>x",  group = "Trouble" },
 
         -- Visual mode
         { "<leader>h",  desc = "Git [H]unk",  mode = "v" }
